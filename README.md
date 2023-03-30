@@ -1,16 +1,16 @@
-# QumuloCollector
-Qumulo Collector for Varonis Integration
+# QumuloBroker
+Qumulo Broker for Varonis Integration
 
 ## Official Documentation
 
-The documentation for the deployment of Qumulo Collector is on
+The documentation for the deployment of Qumulo Broker is on
 the official documentation page.
 
 [Qumulo Integration Guide](http://docs.qumulo.com)
 
 ## Help
 
-To post feedback, submit feature ideas, or report bugs, use the [Issues](https://github.com/Qumulo/QumuloCollector/issues) section of this GitHub repo.
+To post feedback, submit feature ideas, or report bugs, use the [Issues](https://github.com/Qumulo/QumuloBroker/issues) section of this GitHub repo.
 
 ## Copyright
 
@@ -50,6 +50,7 @@ All other trademarks referenced herein are the property of their respective owne
 
 ## Contributors
 
+ - [Michael G. Khmelnitsky](https://github.com/mig281)
  - [Andrew Abrahamowicz](https://github.com/andrewabrahamowicz)
  - [Berat Ulualan](https://github.com/beratulualan)
  - [Michael Kade](https://github.com/mikekade)

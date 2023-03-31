@@ -35,7 +35,7 @@ import sys
 import uvicorn
 from fastapi import FastAPI
 
-# Import required python files and function from other files 
+# Import required python files and function from other files
 from utils.logger import Logger
 from db.database import engine
 from db.database import create_db_and_tables
@@ -48,10 +48,17 @@ progvers = "5.3.2"
 
 # Start by getting any command line arguments
 parser = argparse.ArgumentParser(description=progdesc)
-parser.add_argument("--version", action="version", version=f"{progname} - Version {progvers}")
-parser.add_argument("--log", default="INFO", required=False, dest="loglevel",
-                    choices=["DEBUG", "INFO", "WARNING", "ERROR", "DEBUG"],
-                    help="Set the logging level.")
+parser.add_argument(
+    "--version", action="version", version=f"{progname} - Version {progvers}"
+)
+parser.add_argument(
+    "--log",
+    default="INFO",
+    required=False,
+    dest="loglevel",
+    choices=["DEBUG", "INFO", "WARNING", "ERROR", "DEBUG"],
+    help="Set the logging level.",
+)
 try:
     args = parser.parse_args()
 except argparse.ArgumentTypeError:
@@ -62,23 +69,26 @@ except argparse.ArgumentTypeError:
 logger = Logger(name=progname, version=progvers, level=args.loglevel, log_path=None)
 
 # Instantiate the API
-app = FastAPI(title=progname,
-                 description=progdesc,
-                 version=progvers,
-                 terms_of_service="https://www.qumulo.com/terms-hub",
-                 contact = {
-                    "name": "Qumulo Care",
-                    "url": "https://care.qumulo.com",
-                    "email": "care@qumulo.com",
-                 },
-                 license_info = {
-                    "name": "MIT",
-                    "url": "https://choosealicense.com/licenses/mit/",
-                 },
-                 swagger_ui_parameters={"defaultModelsExpandDepth": -1})
+app = FastAPI(
+    title=progname,
+    description=progdesc,
+    version=progvers,
+    terms_of_service="https://www.qumulo.com/terms-hub",
+    contact={
+        "name": "Qumulo Care",
+        "url": "https://care.qumulo.com",
+        "email": "care@qumulo.com",
+    },
+    license_info={
+        "name": "MIT",
+        "url": "https://choosealicense.com/licenses/mit/",
+    },
+    swagger_ui_parameters={"defaultModelsExpandDepth": -1},
+)
 
 # Include all of the endpoints
 app.include_router(objects.router)
+
 
 # Functions to execute on startup before we deal with the API
 @app.on_event("startup")
@@ -86,15 +96,17 @@ async def startup_event():
     logger.info("Startup event reached")
     create_db_and_tables()
 
+
 # Functions that will help us terminate
 @app.on_event("shutdown")
 async def shutdown_event():
     logger.info("Shutdown event reached")
 
+
 # Main routine that starts up everything!!
 def main():
     uvicorn.run(app, host="0.0.0.0", port=8000, proxy_headers=True)
 
+
 if __name__ == "__main__":
     main()
-

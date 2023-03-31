@@ -30,8 +30,9 @@ from typing import Optional
 
 from sqlmodel import Field, SQLModel
 
+
 class ObjectBase(SQLModel):
-    cluster_name: str 
+    cluster_name: str
     certificate: str
     filer_id: int = Field(index=True, unique=True)
     server: str
@@ -41,12 +42,15 @@ class ObjectBase(SQLModel):
     username: str
     password: str
 
+
 class Objects(ObjectBase, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
-    
+
+
 # Create a Object entry in the DB
 class ObjectCreate(ObjectBase):
     pass
+
 
 # Read from the Objects table
 class ObjectRead(SQLModel):
@@ -61,6 +65,7 @@ class ObjectRead(SQLModel):
     username: str
     password: str
 
+
 # Update a Object entry in the DB
 class ObjectUpdate(SQLModel):
     cluster_name: Optional[str]
@@ -72,14 +77,15 @@ class ObjectUpdate(SQLModel):
     exchange: Optional[str]
     username: Optional[str]
     password: Optional[str]
-    
+
+
 class Credentials(SQLModel):
     username: str
     password: str
     cluster: str
-    
+
+
 class ConnectivityCheck(SQLModel):
     message: str
     x_real_ip: str
     x_forwarded_for: str
-    

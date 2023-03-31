@@ -33,14 +33,23 @@ from sqlmodel import SQLModel, create_engine, Session
 
 # db_file_name = "database.db"
 
-DATABASE_URL = "mysql+mysqldb://"+os.environ.get('MYSQL_USER')+":"+os.environ.get('MYSQL_PASSWORD')+"@db:3306/"+os.environ.get('MYSQL_DATABASE')
+DATABASE_URL = (
+    "mysql+mysqldb://"
+    + os.environ.get("MYSQL_USER")
+    + ":"
+    + os.environ.get("MYSQL_PASSWORD")
+    + "@db:3306/"
+    + os.environ.get("MYSQL_DATABASE")
+)
 
 # Create the DB engine
 engine = create_engine(DATABASE_URL, echo=True, pool_recycle=3600)
 
+
 # Create the database(s)
 def create_db_and_tables():
     SQLModel.metadata.create_all(engine)
+
 
 # Create a DB session for an operation
 def get_session():

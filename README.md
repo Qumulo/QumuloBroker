@@ -1,9 +1,9 @@
-# QumuloCollector
-Qumulo Collector for Varonis Integration
+# Qumulo Broker
+Qumulo Broker for Varonis Integration
 
 ## Official Documentation
 
-The documentation for the deployment of Qumulo Collector is on
+The documentation for the deployment of Qumulo Broker is on
 the official documentation page.
 
 [Qumulo Integration Guide](http://docs.qumulo.com)
@@ -49,7 +49,7 @@ See [LICENSE](LICENSE) for full details
 All other trademarks referenced herein are the property of their respective owners.
 
 ## Contributors
-
+ - [Michael G. Khmelnitsky](https://github.com/mig281)
  - [Andrew Abrahamowicz](https://github.com/andrewabrahamowicz)
  - [Berat Ulualan](https://github.com/beratulualan)
  - [Michael Kade](https://github.com/mikekade)

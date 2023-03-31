@@ -7,7 +7,7 @@
 
     "applications": {
         "fastapi": {
-            "type": "python 3.9",
+            "type": "python 3.11",
             "path": "/code/app/",
             "module": "main"
         }

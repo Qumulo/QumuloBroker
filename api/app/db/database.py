@@ -43,7 +43,7 @@ DATABASE_URL = (
 )
 
 # Create the DB engine
-engine = create_engine(DATABASE_URL, echo=True, pool_recycle=3600)
+engine = create_engine(DATABASE_URL, echo=False, pool_recycle=3600)
 
 
 # Create the database(s)

@@ -24,13 +24,13 @@
 #
 
 # Get the base image
-FROM python:3
+FROM python:3.11-bookworm
 
 # Who is the maintainer
 MAINTAINER Berat Ulualan <bulualan@qumulo.com>
 
 # Make sure PIP is the latest version
-RUN pip install --upgrade pip
+RUN pip install --upgrade pip==21.2.3
 
 # Load python libraries from requirements.txt
 COPY requirements.txt .

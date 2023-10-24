@@ -31,6 +31,11 @@ import os
 
 from sqlmodel import SQLModel, create_engine, Session
 
+import logging
+
+logging.basicConfig()
+logging.getLogger("sqlalchemy.engine").setLevel(logging.ERROR)
+
 # db_file_name = "database.db"
 
 DATABASE_URL = (

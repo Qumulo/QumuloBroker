@@ -145,7 +145,7 @@ async def get_object(
     #
     # Compare the client ip with the the local host internal ip
     if (
-        request.headers.get("X-Real-Ip") == host_ip
+        request.client.host == host_ip
         or request.headers.get("X-Forwarded-For") == host_ip
     ):
         statement = select(Objects).where(Objects.cluster_name == cluster_name)

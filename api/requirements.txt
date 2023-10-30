@@ -1,15 +1,13 @@
-fastapi
-uvicorn
-sqlmodel
-email-validator
-sqlalchemy
-passlib
-requests
-python-jose
-python-multipart
-python-memcached
-mysqlclient
-aiomysql
-docker
-pymysql
-psutil
+fastapi == 0.104.0
+uvicorn == 0.23.2
+sqlmodel == 0.0.8
+sqlalchemy == 1.4.41 
+passlib == 1.7.4
+requests == 2.31.0
+python-jose == 3.3.0
+python-multipart == 0.0.6
+python-memcached == 1.59
+mysqlclient == 2.2.0
+aiomysql == 0.2.0
+pymysql == 1.1.0
+psutil == 5.8.0

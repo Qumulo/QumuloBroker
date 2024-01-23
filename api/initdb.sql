@@ -10,5 +10,7 @@ CREATE TABLE IF NOT EXISTS objects (
     exchange VARCHAR(128) NOT NULL,
     username VARCHAR(64) NOT NULL,
     password VARCHAR(128) NOT NULL,
+    UNIQUE (cluster_name),
+    UNIQUE (filer_id),
     INDEX IX_cluster_name (cluster_name)
 );

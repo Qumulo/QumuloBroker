@@ -6,7 +6,7 @@ Qumulo Broker for Varonis Integration
 The documentation for the deployment of Qumulo Broker is on
 the official documentation page.
 
-[Qumulo Integration Guide](https://docs.qumulo.com/integration-guide/varonis/index.html)
+[Qumulo Integration Guide](https://docs.qumulo.com/integration-guide/varonis/index.html))
 
 ## Help
 

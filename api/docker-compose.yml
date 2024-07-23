@@ -14,6 +14,7 @@ services:
       - "8000:8000"
     depends_on:
       - db
+      - cache
     networks:
       - private
 
@@ -30,6 +31,18 @@ services:
       - web
     networks:
       #- public
+      - private
+
+  # Redis Cache
+  cache:
+    image: redis:7.2-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel debug --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    volumes:
+      - ${PWD}/cache:/data
+    networks:
       - private
 
   # MariaDB database for RMQ object definitions

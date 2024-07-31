@@ -41,6 +41,9 @@ from db.database import engine
 from db.database import create_db_and_tables
 from routers.objects import objects
 
+import time
+time.sleep(10)
+
 # Define the name of the Program, Description, and Version.
 progname = "Qumulo RestAPIs for Varonis"
 progdesc = "Qumulo RestAPIs for Varonis"

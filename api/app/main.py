@@ -47,7 +47,7 @@ time.sleep(10)
 # Define the name of the Program, Description, and Version.
 progname = "Qumulo RestAPIs for Varonis"
 progdesc = "Qumulo RestAPIs for Varonis"
-progvers = "5.3.2"
+progvers = "7.2.0"
 
 # Start by getting any command line arguments
 parser = argparse.ArgumentParser(description=progdesc)

@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   # API server 
   web:
@@ -7,7 +5,7 @@ services:
     build: .
     command: ["python3", "app/main.py"]
     env_file:
-          - .env
+      - .env
     volumes:
       - .:/code
     ports:
@@ -17,6 +15,11 @@ services:
       - cache
     networks:
       - private
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   # NGINX Proxy Server for HTTPS
   proxy:
@@ -30,40 +33,48 @@ services:
     depends_on:
       - web
     networks:
-      #- public
       - private
+    healthcheck:
+      test: ["CMD", "curl", "-f", "https://localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   # Redis Cache
   cache:
     image: redis:7.2-alpine
     restart: always
-    ports:
-      - '6379:6379'
     command: redis-server --save 20 1 --loglevel debug --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
     volumes:
-      - ${PWD}/cache:/data
+      - ./cache:/data
     networks:
       - private
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   # MariaDB database for RMQ object definitions
   db:
-    image: mariadb
+    image: mariadb:latest
     restart: always
     env_file:
-          - .env
+      - .env
     ports:
       - "3306:3306"
     volumes:
-      - ${PWD}/mariadb:/var/lib/mysql
-      # SQLModel has a limitation to define different size VARCHAR definitions. Due to that, create the table with anan initialization process
-      - ${PWD}/initdb.sql:/docker-entrypoint-initdb.d/initdb.sql
+      - ./mariadb:/var/lib/mysql
+      - ./initdb.sql:/docker-entrypoint-initdb.d/initdb.sql
     networks:
       - private
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
 # Network definition
 networks:
-  public:
-    driver: bridge
   private:
     driver: bridge
-    #internal: true

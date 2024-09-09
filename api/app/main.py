@@ -32,84 +32,80 @@
 # Import python libraries
 import argparse
 import sys
+import time
 import uvicorn
 from fastapi import FastAPI
 
-# Import required python files and function from other files
+# Import required modules from other files
 from utils.logger import Logger
-from db.database import engine
 from db.database import create_db_and_tables
 from routers.objects import objects
 
-import time
-time.sleep(10)
-
-# Define the name of the Program, Description, and Version.
 progname = "Qumulo RestAPIs for Varonis"
 progdesc = "Qumulo RestAPIs for Varonis"
-progvers = "7.2.0"
+progvers = "7.2.1"
 
-# Start by getting any command line arguments
-parser = argparse.ArgumentParser(description=progdesc)
-parser.add_argument(
-    "--version", action="version", version=f"{progname} - Version {progvers}"
-)
-parser.add_argument(
-    "--log",
-    default="INFO",
-    required=False,
-    dest="loglevel",
-    choices=["DEBUG", "INFO", "WARNING", "ERROR", "DEBUG"],
-    help="Set the logging level.",
-)
-try:
-    args = parser.parse_args()
-except argparse.ArgumentTypeError:
-    # Log an error
-    sys.exit(1)
+def parse_args():
+    """Parse command-line arguments."""
+    parser = argparse.ArgumentParser(description=progdesc)
+    parser.add_argument(
+        "--version", action="version", version=f"{progname} - Version {progvers}"
+    )
+    parser.add_argument(
+        "--log",
+        default="INFO",
+        required=False,
+        dest="loglevel",
+        choices=["DEBUG", "INFO", "WARNING", "ERROR", "DEBUG"],
+        help="Set the logging level.",
+    )
+    return parser.parse_args()
 
-# Build a logger to handle logging events.
-logger = Logger(name=progname, version=progvers, level=args.loglevel, log_path=None)
+def create_app() -> FastAPI:
+    """Create and configure the FastAPI application."""
 
-# Instantiate the API
-app = FastAPI(
-    title=progname,
-    description=progdesc,
-    version=progvers,
-    terms_of_service="https://www.qumulo.com/terms-hub",
-    contact={
-        "name": "Qumulo Care",
-        "url": "https://care.qumulo.com",
-        "email": "care@qumulo.com",
-    },
-    license_info={
-        "name": "MIT",
-        "url": "https://choosealicense.com/licenses/mit/",
-    },
-    swagger_ui_parameters={"defaultModelsExpandDepth": -1},
-)
+    # Define the lifespan event
+    async def lifespan(app: FastAPI):
+        logger.info("Starting up application...")
+        create_db_and_tables()
+        yield
+        logger.info("Shutting down application...")
 
-# Include all of the endpoints
-app.include_router(objects.router)
+    app = FastAPI(
+        title=progname,
+        description=progdesc,
+        version=progvers,
+        terms_of_service="https://www.qumulo.com/terms-hub",
+        contact={
+            "name": "Qumulo Care",
+            "url": "https://care.qumulo.com",
+            "email": "care@qumulo.com",
+        },
+        license_info={
+            "name": "MIT",
+            "url": "https://choosealicense.com/licenses/mit/",
+        },
+        swagger_ui_parameters={"defaultModelsExpandDepth": -1},
+        lifespan=lifespan
+    )
 
+    # Include all of the endpoints
+    app.include_router(objects.router)
 
-# Functions to execute on startup before we deal with the API
-@app.on_event("startup")
-async def startup_event():
-    logger.info("Startup event reached")
-    create_db_and_tables()
+    return app
 
-
-# Functions that will help us terminate
-@app.on_event("shutdown")
-async def shutdown_event():
-    logger.info("Shutdown event reached")
-
-
-# Main routine that starts up everything!!
 def main():
-    uvicorn.run(app, host="0.0.0.0", port=8000, access_log=False, proxy_headers=True)
+    args = parse_args()
 
+    global logger
+    logger = Logger(name=progname, version=progvers, level=args.loglevel, log_path=None)
+
+    logger.info("Sleeping for 10 seconds before starting the application...")
+    time.sleep(10)
+
+    app = create_app()
+
+    uvicorn.run(app, host="0.0.0.0", port=8000, access_log=False, proxy_headers=True)
 
 if __name__ == "__main__":
     main()

@@ -33,7 +33,7 @@ import os
 
 progname = "QumuloPlugin"
 progdesc = "QumuloPlugin - manage all plugins"
-progvers = "7.2.0"
+progvers = "7.2.1"
 
 
 class Logger(object):
@@ -41,7 +41,7 @@ class Logger(object):
     Provides a Logger object
     """
 
-    LOG_FORMAT = "%(asctime)s | %(name)s | %(levelname)s | %(message)s"
+    LOG_FORMAT = "%(asctime)s | %(name)s | %(levelname)s | %(message)s"
     DEFAULT_LEVEL = logging.WARNING
     FILTERS_FILENAME = "debugfilters.conf"
 

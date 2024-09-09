@@ -44,7 +44,7 @@ services:
   cache:
     image: redis:7.2-alpine
     restart: always
-    command: redis-server --save 20 1 --loglevel debug --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    command: redis-server --save 20 1 --loglevel warning --maxmemory-policy allkeys-lru --maxmemory 512mb --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
     volumes:
       - ./cache:/data
     networks:

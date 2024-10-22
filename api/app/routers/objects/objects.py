@@ -116,6 +116,12 @@ def create_object(
         session.add(objects)
         session.commit()
         session.refresh(objects)
+
+        cache_key = obj.cluster_name
+        cache = rd.get(cache_key)
+        if cache:
+            rd.delete(cache_key)
+            
         return objects
     else:
         raise HTTPException(status_code=401, detail="Authentication failure")
@@ -185,12 +191,16 @@ async def get_object(
     qumulo_connection: int = Depends(qumulo_check)
 ):
     if qumulo_connection == 200:
-        statement = select(Objects).where(Objects.cluster_name == cluster_name)
-        results = session.exec(statement)
-        cluster = results.first()
-        if not cluster:
-            raise HTTPException(status_code=404, detail="Object not found")
-        return cluster
+        cache = rd.get(cluster_name)
+        if cache:
+            return json.loads(cache)
+        else:
+            statement = select(Objects).where(Objects.cluster_name == cluster_name)
+            results = session.exec(statement)
+            cluster = results.first()
+            if not cluster:
+                raise HTTPException(status_code=404, detail="Object not found")
+            return cluster
     else:
         raise HTTPException(status_code=401, detail="Authentication failure")
 
@@ -219,7 +229,8 @@ def update_object(
         session.add(object1)
         session.commit()
         session.refresh(object1)
-        rd.delete(cluster_name)
+        cache_key = cluster_name
+        rd.delete(cache_key)
         return object1
     else:
         raise HTTPException(status_code=401, detail="Authentication failure")
@@ -240,6 +251,8 @@ def delete_object(
             raise HTTPException(status_code=404, detail="Object not found")
         session.delete(object)
         session.commit()
+        cache_key = cluster_name
+        rd.delete(cache_key)
         return {"ok": True}
     else:
         raise HTTPException(status_code=401, detail="Authentication failure")

@@ -16,10 +16,11 @@ services:
     networks:
       - private
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
-      interval: 30s
+      test: ["CMD", "curl", "-f", "http://localhost:8000/docs"]
+      start_period: 15s
+      interval: 10s
       timeout: 10s
-      retries: 3
+      retries: 5
 
   # NGINX Proxy Server for HTTPS
   proxy:
@@ -35,10 +36,11 @@ services:
     networks:
       - private
     healthcheck:
-      test: ["CMD", "curl", "-f", "https://localhost"]
-      interval: 30s
+      test: ["CMD", "curl","-k", "-f", "https://localhost"]
+      start_period: 10s
+      interval: 10s
       timeout: 10s
-      retries: 3
+      retries: 5
 
   # Redis Cache
   cache:
@@ -51,9 +53,10 @@ services:
       - private
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
-      interval: 30s
+      start_period: 10s
+      interval: 10s
       timeout: 10s
-      retries: 3
+      retries: 5
 
   # MariaDB database for RMQ object definitions
   db:
@@ -69,10 +72,11 @@ services:
     networks:
       - private
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      start_period: 10s
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 # Network definition
 networks:

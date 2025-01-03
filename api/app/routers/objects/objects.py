@@ -143,7 +143,7 @@ async def get_object(
     for network, addrs in networks.items():
         if network.startswith("eth0"):
             for addr in addrs:
-                if "AddressFamily.AF_INET" in str(addr):
+                if addr.family == socket.AF_INET:
                     container_ip = addr.address
 
     # parse the container ip for the local host internal ip

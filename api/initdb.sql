@@ -2,7 +2,7 @@
 CREATE TABLE IF NOT EXISTS objects (
     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     cluster_name VARCHAR(128) NOT NULL,
-    certificate TEXT NOT NULL,
+    certificate LONGTEXT NOT NULL,
     filer_id INT NOT NULL UNIQUE,
     server VARCHAR(128) NOT NULL,
     port INT NOT NULL,

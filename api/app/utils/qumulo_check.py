@@ -21,7 +21,7 @@ requests.packages.urllib3.disable_warnings()
 # Define the name of the Program, Description, and Version.
 progname = "Qumulo RestAPIs for Varonis"
 progdesc = "Qumulo RestAPIs for Varonis"
-progvers = "7.3.2"
+progvers = "7.4.0"
 
 # Start by getting any command line arguments
 

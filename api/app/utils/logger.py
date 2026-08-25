@@ -33,7 +33,7 @@ import os
 
 progname = "QumuloPlugin"
 progdesc = "QumuloPlugin - manage all plugins"
-progvers = "7.4.4"
+progvers = "7.5.0"
 
 
 class Logger(object):

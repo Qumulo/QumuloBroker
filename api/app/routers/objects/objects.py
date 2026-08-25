@@ -50,10 +50,11 @@ from utils.qumulo_check import qumulo_check
 router = APIRouter(tags=["RMQ Objects"])
 
 # Setup Redis connection
-redis_host = os.getenv('REDIS_HOST')
-redis_port = os.getenv('REDIS_PORT')
-redis_password = os.getenv('REDIS_PASSWORD')
+redis_host = os.getenv("REDIS_HOST")
+redis_port = os.getenv("REDIS_PORT")
+redis_password = os.getenv("REDIS_PASSWORD")
 rd = redis.Redis(host=redis_host, port=redis_port, password=redis_password, db=0)
+
 
 # RMQ Object API Endpoints
 # Get All RMQ Objects
@@ -121,7 +122,7 @@ def create_object(
         cache = rd.get(cache_key)
         if cache:
             rd.delete(cache_key)
-            
+
         return objects
     else:
         raise HTTPException(status_code=401, detail="Authentication failure")
@@ -166,7 +167,6 @@ async def get_object(
         if cache:
             return json.loads(cache)
         else:
-            
             statement = select(Objects).where(Objects.cluster_name == cluster_name)
             results = session.exec(statement)
             cluster = results.first()

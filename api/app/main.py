@@ -43,7 +43,8 @@ from routers.objects import objects
 
 progname = "Qumulo RestAPIs for Varonis"
 progdesc = "Qumulo RestAPIs for Varonis"
-progvers = "7.4.4"
+progvers = "7.5.0"
+
 
 def parse_args():
     """Parse command-line arguments."""
@@ -60,6 +61,7 @@ def parse_args():
         help="Set the logging level.",
     )
     return parser.parse_args()
+
 
 def create_app() -> FastAPI:
     """Create and configure the FastAPI application."""
@@ -86,13 +88,14 @@ def create_app() -> FastAPI:
             "url": "https://choosealicense.com/licenses/mit/",
         },
         swagger_ui_parameters={"defaultModelsExpandDepth": -1},
-        lifespan=lifespan
+        lifespan=lifespan,
     )
 
     # Include all of the endpoints
     app.include_router(objects.router)
 
     return app
+
 
 def main():
     args = parse_args()
@@ -106,6 +109,7 @@ def main():
     app = create_app()
 
     uvicorn.run(app, host="0.0.0.0", port=8000, access_log=False, proxy_headers=True)
+
 
 if __name__ == "__main__":
     main()

@@ -43,7 +43,7 @@ from routers.objects import objects
 
 progname = "Qumulo RestAPIs for Varonis"
 progdesc = "Qumulo RestAPIs for Varonis"
-progvers = "7.5.0"
+progvers = "7.5.1"
 
 
 def parse_args():

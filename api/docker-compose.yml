@@ -11,8 +11,10 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - db
-      - cache
+      db:
+        condition: service_healthy
+      cache:
+        condition: service_healthy
     networks:
       - private
     healthcheck:
@@ -32,7 +34,8 @@ services:
     ports:
       - "443:443"
     depends_on:
-      - web
+      web:
+        condition: service_healthy
     networks:
       - private
     healthcheck:
